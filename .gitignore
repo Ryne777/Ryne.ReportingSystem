@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Ryne.ReportingSystem.Application/Акт вых контроля ПТ.doc
+*.doc
+*.xlsx
+*.xls

@@ -47,6 +47,14 @@ namespace Ryne.ReportingSystem.Entity
         /// Организация владеющая дефектоскопом
         /// </summary>
         public virtual Organization? Organization { get; set; }
+        /// <summary>
+        /// ID электроника
+        /// </summary>
+        public Guid EngineerID { get; set; }
+        /// <summary>
+        /// Электроник производивший ремонт
+        /// </summary>
+        public Engineer? Engineer { get; set; }
 
     }
 }

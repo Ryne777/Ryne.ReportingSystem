@@ -4,18 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>ce7fd3b5-0fc4-4d91-a6d9-cdc8d3b0c797</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="6.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ryne.ReportingSystem.Entity\Ryne.ReportingSystem.Entity.csproj" />
   </ItemGroup>
-  <appSettings>
-    <!--The license context used-->
-    <add key="EPPlus:ExcelPackage.LicenseContext" value="NonCommercial" />
-</appSettings>
+  
 
 </Project>

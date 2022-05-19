@@ -3,13 +3,11 @@
 namespace Ryne.ReportingSystem.Entity
 {
     /// <summary>
-    /// Организация
+    /// Инженер электроник
     /// </summary>
-    public class Organization: Identity
+    public class Engineer : Identity
     {
         public string Name { get; set; }
-        public List<Defectoscope>? Defectoscopes { get; set; }
-        
-
+        public List<Defectoscope> Defectoscopes { get; set; }
     }
 }

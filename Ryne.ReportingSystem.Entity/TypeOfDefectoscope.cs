@@ -8,7 +8,7 @@ namespace Ryne.ReportingSystem.Entity
     public class TypeOfDefectoscope: Identity
     {
         public string Name { get; set; }
-        public TypeOfDefectoscope(string name)=> Name = name;
+        public List<Defectoscope>? Defectoscopes { get; set; }
 
     }
 }

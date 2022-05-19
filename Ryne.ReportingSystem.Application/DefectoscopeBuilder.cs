@@ -51,6 +51,16 @@ namespace Ryne.ReportingSystem.Application
             _defectoscope.Organization = organization;
             return this;
         }
+        public DefectoscopeBuilder AddEngineer(Engineer engineer)
+        {
+            _defectoscope.EngineerID = engineer.Id;
+            _defectoscope.Engineer = engineer;
+            return this;
+        }
+        public Defectoscope Build()
+        {
+            return _defectoscope;
+        }
     }
 
 }
