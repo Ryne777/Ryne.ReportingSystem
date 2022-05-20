@@ -7,7 +7,7 @@ namespace Ryne.ReportingSystem.Entity
     /// </summary>
     public class Engineer : Identity
     {
-        public string Name { get; set; }
-        public List<Defectoscope> Defectoscopes { get; set; }
+        public string? Name { get; set; }
+        public List<Repair> Repairs { get; set; } = new List<Repair>();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Ryne.ReportingSystem.Application
 {
+    // TODO: избавится от привязки напрямую к классам
     /// <summary>
     /// Строитель дефектоскопов
     /// </summary>
@@ -14,34 +15,9 @@ namespace Ryne.ReportingSystem.Application
             _defectoscope.SerialNumber = serialNumber;
             return this;
         }
-        public DefectoscopeBuilder AddDateReceipt(DateTime dateOfReceipt)
-        {
-            _defectoscope.DateOfReceipt = dateOfReceipt;
-            return this;
-        }
-        public DefectoscopeBuilder AddDateRelease(DateTime dateOfRelease)
-        {
-            _defectoscope.DateOfRelease = dateOfRelease;
-            return this;
-        }
-        public DefectoscopeBuilder AddDateOfCalibration(DateTime dateOfCalibration)
-        {
-            _defectoscope.DateOfCalibration = dateOfCalibration;
-            return this;
-        }
-        public DefectoscopeBuilder AddDateOfLastRepair(DateTime dateOfLastRepair)
-        {
-            _defectoscope.DateOfLastRepair = dateOfLastRepair;
-            return this;
-        }
-        public DefectoscopeBuilder AddTypeOfRepair(TypeOfRepair typeOfRepair)
-        {
-            _defectoscope.TypeOfRepair = typeOfRepair;
-            return this;
-        }
         public DefectoscopeBuilder AddTypeOfDefectoscope(TypeOfDefectoscope typeOfDefectoscope)
         {
-            _defectoscope.TypeOfDefectoscopelId = typeOfDefectoscope.Id;
+            _defectoscope.TypeOfDefectoscopeId = typeOfDefectoscope.Id;
             _defectoscope.TypeOfDefectoscope = typeOfDefectoscope;
             return this;
         }
@@ -51,10 +27,9 @@ namespace Ryne.ReportingSystem.Application
             _defectoscope.Organization = organization;
             return this;
         }
-        public DefectoscopeBuilder AddEngineer(Engineer engineer)
+        public DefectoscopeBuilder AddRepair(Repair repair)
         {
-            _defectoscope.EngineerID = engineer.Id;
-            _defectoscope.Engineer = engineer;
+            _defectoscope.Repairs.Add(repair);
             return this;
         }
         public Defectoscope Build()

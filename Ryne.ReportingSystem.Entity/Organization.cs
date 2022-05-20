@@ -7,8 +7,8 @@ namespace Ryne.ReportingSystem.Entity
     /// </summary>
     public class Organization: Identity
     {
-        public string Name { get; set; }
-        public List<Defectoscope>? Defectoscopes { get; set; }
+        public string? Name { get; set; }
+        public List<Defectoscope> Defectoscopes { get; set; } = new List<Defectoscope>();
         
 
     }
