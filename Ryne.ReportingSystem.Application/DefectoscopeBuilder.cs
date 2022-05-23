@@ -32,6 +32,11 @@ namespace Ryne.ReportingSystem.Application
             _defectoscope.Repairs.Add(repair);
             return this;
         }
+        public DefectoscopeBuilder AddProductionYear(uint year)
+        {
+            _defectoscope.ProductionYear = year;
+            return this;
+        }
         public Defectoscope Build()
         {
             return _defectoscope;

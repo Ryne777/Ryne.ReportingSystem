@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ryne.ReportingSystem.Entity
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ryne.ReportingSystem.Application", "Ryne.ReportingSystem.Application\Ryne.ReportingSystem.Application.csproj", "{4D085978-C8D3-4DBB-B82E-8692A2FE7213}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryne.ReportingSystem.ConsoleClient", "Ryne.ReportingSystem.ConsoleClient\Ryne.ReportingSystem.ConsoleClient.csproj", "{4C2CEF12-162B-4ACA-8965-C75439B5B174}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ryne.ReportingSystem.ConsoleClient", "Ryne.ReportingSystem.ConsoleClient\Ryne.ReportingSystem.ConsoleClient.csproj", "{4C2CEF12-162B-4ACA-8965-C75439B5B174}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4D085978-C8D3-4DBB-B82E-8692A2FE7213} = {4D085978-C8D3-4DBB-B82E-8692A2FE7213}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryne.ReportingSystem.Web", "Ryne.ReportingSystem.Web\Ryne.ReportingSystem.Web.csproj", "{416FB9F3-AE6D-4985-9245-89ABC52FCAF6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4D085978-C8D3-4DBB-B82E-8692A2FE7213} = {4D085978-C8D3-4DBB-B82E-8692A2FE7213}
 	EndProjectSection
@@ -30,6 +35,10 @@ Global
 		{4C2CEF12-162B-4ACA-8965-C75439B5B174}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C2CEF12-162B-4ACA-8965-C75439B5B174}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C2CEF12-162B-4ACA-8965-C75439B5B174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{416FB9F3-AE6D-4985-9245-89ABC52FCAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{416FB9F3-AE6D-4985-9245-89ABC52FCAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{416FB9F3-AE6D-4985-9245-89ABC52FCAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{416FB9F3-AE6D-4985-9245-89ABC52FCAF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

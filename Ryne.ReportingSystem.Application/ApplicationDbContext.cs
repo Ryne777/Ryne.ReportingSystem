@@ -4,12 +4,12 @@ using Ryne.ReportingSystem.Entity;
 
 namespace Ryne.ReportingSystem.Application
 {
-    public class ApplicationDbContext : DbContext
-    {
-        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        //{
+    public class ApplicationDbContext : DbContext    {
+        
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
 
-        //}
+        }
 
         public DbSet<Defectoscope> Defectoscopes { get; set; }
         public DbSet<Repair> Repair { get; set; }
@@ -17,10 +17,11 @@ namespace Ryne.ReportingSystem.Application
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<TypeOfDefectoscope>  TypeOfDefectoscopes { get; set;}
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase("IN-Memory");
-            base.OnConfiguring(optionsBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

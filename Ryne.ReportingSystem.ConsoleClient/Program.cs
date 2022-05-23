@@ -1,5 +1,4 @@
 ﻿using Ryne.ReportingSystem.Application;
-using Ryne.ReportingSystem.Application.Utils;
 
 var def = new DefectoscopeBuilder();
 var rep = new RepairBuilder();
@@ -17,8 +16,11 @@ def.AddTypeOfDefectoscope(new Ryne.ReportingSystem.Entity.TypeOfDefectoscope() {
     .Bulid()
     );
 var defec = def.Build();
-using var context = new ApplicationDbContext();
-await context.Defectoscopes.AddAsync(defec);
-await context.SaveChangesAsync();
-Console.WriteLine(context.Defectoscopes);
+////using var context = new ApplicationDbContext(options =>
+////{
+////    options.Database.EnsureCreated();
+////});
+//await context.Defectoscopes.AddAsync(defec);
+//await context.SaveChangesAsync();
+Console.WriteLine(defec);
 

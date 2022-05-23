@@ -12,6 +12,10 @@ namespace Ryne.ReportingSystem.Entity
         /// </summary>
         public string? SerialNumber { get; set; }
         /// <summary>
+        /// Год изготовления
+        /// </summary>
+        public uint ProductionYear { get; set; }
+        /// <summary>
         /// Id типа дефектоскопа
         /// </summary>
         public Guid TypeOfDefectoscopeId { get; set; }
