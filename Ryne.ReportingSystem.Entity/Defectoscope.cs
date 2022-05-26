@@ -34,7 +34,7 @@ namespace Ryne.ReportingSystem.Entity
         /// <summary>
         /// Список ремонтов
         /// </summary>
-        public List<Repair> Repairs { get; set; } = new List<Repair>();
+        public virtual List<Repair> Repairs { get; set; } = new();
 
     }
 }

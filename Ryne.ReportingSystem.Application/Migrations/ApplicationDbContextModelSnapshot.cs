@@ -31,6 +31,9 @@ namespace Ryne.ReportingSystem.Application.Migrations
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<long>("ProductionYear")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -57,7 +60,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Engineer");
+                    b.ToTable("Engineers", (string)null);
                 });
 
             modelBuilder.Entity("Ryne.ReportingSystem.Entity.Organization", b =>

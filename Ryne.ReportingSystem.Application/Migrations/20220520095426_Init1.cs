@@ -10,7 +10,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Engineer",
+                name: "Engineers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -96,7 +96,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
                     table.ForeignKey(
                         name: "FK_Repairs_Engineer_EngineerID",
                         column: x => x.EngineerID,
-                        principalTable: "Engineer",
+                        principalTable: "Engineers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -131,7 +131,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
                 name: "Defectoscopes");
 
             migrationBuilder.DropTable(
-                name: "Engineer");
+                name: "Engineers");
 
             migrationBuilder.DropTable(
                 name: "Organizations");

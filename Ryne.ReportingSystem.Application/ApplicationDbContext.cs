@@ -12,8 +12,8 @@ namespace Ryne.ReportingSystem.Application
         }
 
         public DbSet<Defectoscope> Defectoscopes { get; set; }
-        public DbSet<Repair> Repair { get; set; }
-        public DbSet<Engineer> Engineer { get; set; }
+        public DbSet<Repair> Repairs { get; set; }
+        public DbSet<Engineer> Engineers { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<TypeOfDefectoscope>  TypeOfDefectoscopes { get; set;}
 

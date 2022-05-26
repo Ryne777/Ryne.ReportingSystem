@@ -12,8 +12,8 @@ using Ryne.ReportingSystem.Application;
 namespace Ryne.ReportingSystem.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220520095426_Init1")]
-    partial class Init1
+    [Migration("20220525092417_add_year")]
+    partial class add_year
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,9 @@ namespace Ryne.ReportingSystem.Application.Migrations
 
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ProductionYear")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(max)");

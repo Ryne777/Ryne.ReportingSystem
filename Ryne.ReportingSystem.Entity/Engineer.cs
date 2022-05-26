@@ -8,6 +8,6 @@ namespace Ryne.ReportingSystem.Entity
     public class Engineer : Identity
     {
         public string? Name { get; set; }
-        public List<Repair> Repairs { get; set; } = new List<Repair>();
+        public virtual List<Repair> Repairs { get; set; } = new List<Repair>();
     }
 }

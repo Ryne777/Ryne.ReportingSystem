@@ -12,8 +12,8 @@ using Ryne.ReportingSystem.Application;
 namespace Ryne.ReportingSystem.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220520095426_Init1")]
-    partial class Init1
+    [Migration("20220526064354_rename")]
+    partial class rename
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,6 +33,9 @@ namespace Ryne.ReportingSystem.Application.Migrations
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<long>("ProductionYear")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -48,7 +51,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
                     b.ToTable("Defectoscopes", (string)null);
                 });
 
-            modelBuilder.Entity("Ryne.ReportingSystem.Entity.Engineers", b =>
+            modelBuilder.Entity("Ryne.ReportingSystem.Entity.Engineer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +79,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
                     b.ToTable("Organizations");
                 });
 
-            modelBuilder.Entity("Ryne.ReportingSystem.Entity.Repairs", b =>
+            modelBuilder.Entity("Ryne.ReportingSystem.Entity.Repair", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,7 +149,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
                     b.Navigation("TypeOfDefectoscope");
                 });
 
-            modelBuilder.Entity("Ryne.ReportingSystem.Entity.Repairs", b =>
+            modelBuilder.Entity("Ryne.ReportingSystem.Entity.Repair", b =>
                 {
                     b.HasOne("Ryne.ReportingSystem.Entity.Defectoscope", "Defectoscope")
                         .WithMany("Repairs")
@@ -154,7 +157,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ryne.ReportingSystem.Entity.Engineers", "Engineers")
+                    b.HasOne("Ryne.ReportingSystem.Entity.Engineer", "Engineer")
                         .WithMany("Repairs")
                         .HasForeignKey("EngineerID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -162,7 +165,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
 
                     b.Navigation("Defectoscope");
 
-                    b.Navigation("Engineers");
+                    b.Navigation("Engineer");
                 });
 
             modelBuilder.Entity("Ryne.ReportingSystem.Entity.Defectoscope", b =>
@@ -170,7 +173,7 @@ namespace Ryne.ReportingSystem.Application.Migrations
                     b.Navigation("Repairs");
                 });
 
-            modelBuilder.Entity("Ryne.ReportingSystem.Entity.Engineers", b =>
+            modelBuilder.Entity("Ryne.ReportingSystem.Entity.Engineer", b =>
                 {
                     b.Navigation("Repairs");
                 });
