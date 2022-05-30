@@ -36,8 +36,7 @@ namespace Ryne.ReportingSystem.Web.Definitions.Common
 
             app.UseAuthorization();
 
-            app.MapRazorPages();
-            DataSeedHelper.EnsurePopulated(app);
+            app.MapRazorPages();         
             
 
         }

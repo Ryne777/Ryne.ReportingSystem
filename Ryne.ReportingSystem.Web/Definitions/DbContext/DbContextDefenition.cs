@@ -9,7 +9,8 @@ namespace Ryne.ReportingSystem.Web.Definitions.DbContext
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-            {                
+            {
+                options.UseLazyLoadingProxies();
                 options.UseSqlServer(configuration.GetConnectionString(nameof(ApplicationDbContext)));                
             });
         }

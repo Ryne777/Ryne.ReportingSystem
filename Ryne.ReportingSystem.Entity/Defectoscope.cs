@@ -10,7 +10,7 @@ namespace Ryne.ReportingSystem.Entity
         /// <summary>
         /// Серийный номер
         /// </summary>
-        public string? SerialNumber { get; set; }
+        public string SerialNumber { get; set; } = null!;
         /// <summary>
         /// Год изготовления
         /// </summary>

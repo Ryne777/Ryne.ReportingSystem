@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Ryne.ReportingSystem.Application;
 using Ryne.ReportingSystem.Web.Definitions.Base;
+using Ryne.ReportingSystem.Web.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Ryne.ReportingSystem.Web.Endpoints
@@ -17,63 +19,38 @@ namespace Ryne.ReportingSystem.Web.Endpoints
         [SwaggerOperation(
             Summary = "удаляеет один дефектосковоп")]
         [SwaggerResponse(201, "success")]
-        [SwaggerResponse(500, "some failure")]
+        [SwaggerResponse(500, "some failure")]        
         private async Task DeleteDefectoscopeById(ApplicationDbContext db, HttpContext context,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            db.Defectoscopes.Remove(db.Defectoscopes.FindAsync(id).Result);
+            var data = await db.Defectoscopes.FirstOrDefaultAsync(x => x.Id == id);
+            db.Defectoscopes.Remove(data!);
             await db.SaveChangesAsync();
         }
 
         [SwaggerOperation(
             Summary = "возваращает список дефектосковоп")]
-        [SwaggerResponse(200, "success")]
+        [SwaggerResponse(200, "success", typeof(List<DefectoscopeDTO>))]
         [SwaggerResponse(500, "some failure")]
-        private async Task GetListDefectoscopes(ApplicationDbContext db, HttpContext http)
+        private async Task GetListDefectoscopes(ApplicationDbContext db, HttpContext http, IMapper mapper)
         {
-            await http.Response.WriteAsJsonAsync(db.Defectoscopes.Select(x => new
-            {
-                x.Id,
-                type_of_defectoscope = x.TypeOfDefectoscope.Name,
-                x.SerialNumber,
-                x.ProductionYear,
-                organizition_name = x.Organization.Name,
-                repairs = x.Repairs.Select(r => new
-                {
-                    engineer_name = r.Engineer.Name,
-                    r.DateOfCalibration,
-                    r.DateOfReceipt,
-                    r.DateOfRelease,
-                    type_of_repair = r.TypeOfRepair.ToString()
-                }).ToArray()
-            }).ToArrayAsync().Result);
+            var data = await db.Defectoscopes.ToArrayAsync();
+            var DTO = mapper.Map<List<DefectoscopeDTO>>(data);
+            await http.Response.WriteAsJsonAsync(DTO);
         }
 
         [SwaggerOperation(
             Summary = "возваращает один дефектосковоп")]
-        [SwaggerResponse(200, "success")]
+        [SwaggerResponse(200, "success", typeof(DefectoscopeDetailDTO))]
         [SwaggerResponse(500, "some failure")]
-        private async Task GetOneDefectoscopById(ApplicationDbContext db, HttpContext http,
+        private async Task GetOneDefectoscopById(ApplicationDbContext db, HttpContext http, IMapper mapper,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            await http.Response.WriteAsJsonAsync(db.Defectoscopes.Where(x => x.Id == id).Select(x => new
-            {
-                x.Id,
-                type_of_defectoscope = x.TypeOfDefectoscope.Name,
-                x.SerialNumber,
-                x.ProductionYear,
-                organizition_name = x.Organization.Name,
-                repairs = x.Repairs.Select(r => new
-                {
-                    engineer_name = r.Engineer.Name,
-                    r.DateOfCalibration,
-                    r.DateOfReceipt,
-                    r.DateOfRelease,
-                    type_of_repair = r.TypeOfRepair.ToString()
-                }).ToArray()
-            }).FirstAsync().Result);
+            var data = await db.Defectoscopes.FirstOrDefaultAsync(x => x.Id == id);
+            var DTO = mapper.Map<DefectoscopeDetailDTO>(data);
+            await http.Response.WriteAsJsonAsync(DTO);
         }
 
     }

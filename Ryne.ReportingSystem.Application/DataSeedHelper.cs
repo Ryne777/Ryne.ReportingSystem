@@ -1,17 +1,18 @@
-﻿using Ryne.ReportingSystem.Application;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Ryne.ReportingSystem.Application;
 
 namespace Ryne.ReportingSystem.Web.Helpers
 {
     public class DataSeedHelper
     {
-        public static async void EnsurePopulated(IApplicationBuilder арр)
+        public static async void Seed(IServiceProvider serviceProvider)
         {
-            var scopedFactory = арр.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+
             // create a scope
-            using var scope = scopedFactory.CreateScope();
+            using var scope = serviceProvider.CreateScope();
             // then resolve the services and execute it
-            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();            
-            if (!context.Defectoscopes.Any())
+            await using var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            if (!context!.Defectoscopes.Any())
             {
                 var _defectoscopeBuilder = new DefectoscopeBuilder();
                 var _repairBuilder = new RepairBuilder();
