@@ -18,8 +18,8 @@ namespace Ryne.ReportingSystem.Web.Endpoints
 
         [SwaggerOperation(
             Summary = "удаляеет один дефектосковоп")]
-        [SwaggerResponse(201, "success")]
-        [SwaggerResponse(500, "some failure")]        
+        [SwaggerResponse(StatusCodes.Status200OK, "success")]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]        
         private async Task DeleteDefectoscopeById(ApplicationDbContext db, HttpContext context,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
@@ -31,8 +31,8 @@ namespace Ryne.ReportingSystem.Web.Endpoints
 
         [SwaggerOperation(
             Summary = "возваращает список дефектосковоп")]
-        [SwaggerResponse(200, "success", typeof(List<DefectoscopeDTO>))]
-        [SwaggerResponse(500, "some failure")]
+        [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(List<DefectoscopeDTO>))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
         private async Task GetListDefectoscopes(ApplicationDbContext db, HttpContext http, IMapper mapper)
         {
             var data = await db.Defectoscopes.ToArrayAsync();
@@ -42,8 +42,8 @@ namespace Ryne.ReportingSystem.Web.Endpoints
 
         [SwaggerOperation(
             Summary = "возваращает один дефектосковоп")]
-        [SwaggerResponse(200, "success", typeof(DefectoscopeDetailDTO))]
-        [SwaggerResponse(500, "some failure")]
+        [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(DefectoscopeDetailDTO))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
         private async Task GetOneDefectoscopById(ApplicationDbContext db, HttpContext http, IMapper mapper,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)

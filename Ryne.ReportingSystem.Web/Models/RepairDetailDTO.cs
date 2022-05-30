@@ -1,8 +1,8 @@
 ﻿namespace Ryne.ReportingSystem.Web.Models
 {
-    public record RepairDetailDTO
+    public record RepairDetailDTO: RepairDTO
     {
-        public Guid Id { get; set; }
+       
         /// <summary>
         /// Дата поступления
         /// </summary>
@@ -10,11 +10,7 @@
         /// <summary>
         /// Дата выхода
         /// </summary>
-        public DateTime DateOfRelease { get; set; }
-        /// <summary>
-        /// Дата калибровки
-        /// </summary>
-        public DateTime DateOfCalibration { get; set; }
+        public DateTime DateOfRelease { get; set; }        
         /// <summary>
         /// Дата последнего ремонта
         /// </summary>

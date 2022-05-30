@@ -22,8 +22,8 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "выводит список ремонтов",
             Tags = new[] { "RepairsEndpoints" }),
             ]
-        [SwaggerResponse(201, "success", typeof(List<RepairDetailDTO>))]
-        [SwaggerResponse(500, "some failure")]        
+        [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(List<RepairDetailDTO>))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]        
         private async Task GetListRepairs(ApplicationDbContext db, HttpContext http, IMapper mapper)
         {
             var data = await db.Repairs.ToArrayAsync();
