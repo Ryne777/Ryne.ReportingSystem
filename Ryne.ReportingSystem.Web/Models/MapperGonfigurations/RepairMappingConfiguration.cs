@@ -9,6 +9,8 @@ namespace Ryne.ReportingSystem.Web.Models.MapperGonfigurations
         {
             CreateMap<Repair, RepairDTO>();
             CreateMap<Repair, RepairDetailDTO>();
+            CreateMap<RepairCreateDTO, Repair>();
+            
         }
     }
 }

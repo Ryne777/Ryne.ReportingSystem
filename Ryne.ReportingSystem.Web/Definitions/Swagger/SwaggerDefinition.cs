@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using Ryne.ReportingSystem.Web.Definitions.Base;
+using System.Reflection;
 
 namespace Ryne.ReportingSystem.Web.Definitions.Swagger
 {
@@ -17,7 +18,12 @@ namespace Ryne.ReportingSystem.Web.Definitions.Swagger
                     Description = "Система для хранения и создания отчетов, ремонта дефктоскопов",
                     
                 });
-            });
+                c.UseInlineDefinitionsForEnums();
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                
+            });            
         }
         public override void ConfigureApplication(WebApplication app, IWebHostEnvironment environment)
         {

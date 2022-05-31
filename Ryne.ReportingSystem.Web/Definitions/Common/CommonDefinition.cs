@@ -10,12 +10,15 @@ namespace Ryne.ReportingSystem.Web.Definitions.Common
 
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             //TODO:избавиться от этой опции
             services.Configure<JsonOptions>(options =>
             {
                 options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-            });
+                
+        });
         }
         public override void ConfigureApplication(WebApplication app, IWebHostEnvironment environment)
         {

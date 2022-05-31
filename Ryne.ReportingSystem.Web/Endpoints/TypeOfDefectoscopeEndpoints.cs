@@ -95,6 +95,11 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Guid id)
         {
             var data = await db.TypeOfDefectoscopes.FirstOrDefaultAsync(x => x.Id == id);
+            if (data == null)
+            {
+                http.Response.StatusCode = StatusCodes.Status404NotFound;
+                return;
+            }
             db.TypeOfDefectoscopes.Remove(data!);
             await db.SaveChangesAsync();
             http.Response.StatusCode = StatusCodes.Status204NoContent;

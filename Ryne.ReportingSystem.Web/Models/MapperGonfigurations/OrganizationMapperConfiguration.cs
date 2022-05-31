@@ -9,6 +9,7 @@ namespace Ryne.ReportingSystem.Web.Models.MapperGonfigurations
         {
             CreateMap<Organization, OrganizationDTO>();
             CreateMap<Organization, OrganizationDetailDTO>();
+            CreateMap<OrganizationCreateDTO, Organization>();
 
         }
     }
