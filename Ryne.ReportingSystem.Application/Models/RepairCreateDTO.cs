@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace Ryne.ReportingSystem.Web.Models
+namespace Ryne.ReportingSystem.Application.Models
 {
     /// <summary>
     /// Модель создания Ремонта

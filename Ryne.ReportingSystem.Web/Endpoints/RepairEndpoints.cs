@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Ryne.ReportingSystem.Application;
 using Ryne.ReportingSystem.Web.Definitions.Base;
-using Ryne.ReportingSystem.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 using Ryne.ReportingSystem.Entity;
+using Ryne.ReportingSystem.Application.Models;
+using Ryne.ReportingSystem.Application.Service.Interfaces;
 
 namespace Ryne.ReportingSystem.Web.Endpoints
 {
@@ -27,10 +28,27 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Tags = new[] { "RepairEndpoints" })]
         [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(List<RepairDetailDTO>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]        
-        private async Task GetListRepairs(ApplicationDbContext db, HttpContext http, IMapper mapper)
+        private async Task GetListRepairs(HttpContext http, IRepairService service)
         {
-            var data = await db.Repairs.ToArrayAsync();
-            var DTO = mapper.Map<List<RepairDetailDTO>>(data);
+            var DTO = await service.GetList();
+            await http.Response.WriteAsJsonAsync(DTO);
+        }
+
+        [SwaggerOperation(
+            Summary = "выводит оди ремонт",
+            Tags = new[] { "RepairEndpoints" })]
+        [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(RepairDetailDTO))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
+        private async Task GetOneRepairById(HttpContext http, IRepairService service,
+            [SwaggerParameter("Id:Guid", Required = true)]
+            Guid id)
+        {
+            var DTO = await service.GetById(id);
+            if (DTO == null)
+            {
+                http.Response.StatusCode = StatusCodes.Status404NotFound;
+                return;
+            }
             await http.Response.WriteAsJsonAsync(DTO);
         }
 
@@ -38,15 +56,13 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "создать ремонт")]
         [SwaggerResponse(StatusCodes.Status201Created, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task CreateRepair(ApplicationDbContext db, HttpContext http, IMapper mapper,
+        private async Task CreateRepair(HttpContext http, IRepairService service,
             [SwaggerRequestBody(
                 Required = true
             )]
         RepairCreateDTO DTO)
         {
-            var data = mapper.Map<Repair>(DTO);
-            await db.Repairs.AddAsync(data);
-            await db.SaveChangesAsync();
+            await service.CreateOne(DTO);
             http.Response.StatusCode = StatusCodes.Status201Created;
         }
 
@@ -54,7 +70,7 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "обновляет ремонт дефектоскопа")]
         [SwaggerResponse(StatusCodes.Status201Created, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task UpdateRepair(ApplicationDbContext db, HttpContext http, IMapper mapper,
+        private async Task UpdateRepair(HttpContext http, IRepairService service,
             [SwaggerRequestBody(
                 Required = true
             )]
@@ -62,15 +78,11 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var dataFromDb = await db.Repairs.FirstOrDefaultAsync(x => x.Id == id);
-            if (dataFromDb == null)
+            if (!await service.UpdateOne(DTO, id))
             {
                 http.Response.StatusCode = StatusCodes.Status404NotFound;
                 return;
-            }
-            mapper.Map<RepairCreateDTO,Repair>(DTO, dataFromDb);
-            db.Repairs.Update(dataFromDb);
-            await db.SaveChangesAsync();
+            }    
             http.Response.StatusCode = StatusCodes.Status201Created;
         }
 
@@ -78,18 +90,15 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "удаляеет один ремонт")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task DeletRepairById(ApplicationDbContext db, HttpContext http,
+        private async Task DeletRepairById(HttpContext http, IRepairService service,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var data = await db.Repairs.FirstOrDefaultAsync(x => x.Id == id);
-            if (data == null)
+            if (!await service.DeleteOne(id))
             {
                 http.Response.StatusCode = StatusCodes.Status404NotFound;
                 return;
             }
-            db.Repairs.Remove(data!);
-            await db.SaveChangesAsync();
             http.Response.StatusCode = StatusCodes.Status204NoContent;
         }
     }

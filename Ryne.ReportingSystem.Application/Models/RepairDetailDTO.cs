@@ -1,9 +1,9 @@
-﻿namespace Ryne.ReportingSystem.Web.Models
+﻿namespace Ryne.ReportingSystem.Application.Models
 {
     public record RepairDetailDTO: RepairCreateDTO
     {
        
-        public Guid Id { get; set; }
+        public Guid Id { get; set; }        
         /// <summary>
         /// Дефектоскоп на ремонте
         /// </summary>

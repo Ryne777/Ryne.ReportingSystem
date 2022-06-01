@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Ryne.ReportingSystem.Application;
+using Ryne.ReportingSystem.Application.Models;
 using Ryne.ReportingSystem.Entity;
 using Ryne.ReportingSystem.Web.Definitions.Base;
-using Ryne.ReportingSystem.Web.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Ryne.ReportingSystem.Web.Endpoints

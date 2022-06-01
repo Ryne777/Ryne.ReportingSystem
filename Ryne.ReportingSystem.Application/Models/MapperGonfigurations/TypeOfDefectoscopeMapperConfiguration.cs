@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Ryne.ReportingSystem.Entity;
 
-namespace Ryne.ReportingSystem.Web.Models.MapperGonfigurations
+namespace Ryne.ReportingSystem.Application.Models.MapperGonfigurations
 {
     public class TypeOfDefectoscopeMapperConfiguration: Profile
     {

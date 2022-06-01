@@ -1,4 +1,4 @@
-﻿namespace Ryne.ReportingSystem.Web.Models
+﻿namespace Ryne.ReportingSystem.Application.Models
 {
     public class DefectoscopeCreateDTO
     {

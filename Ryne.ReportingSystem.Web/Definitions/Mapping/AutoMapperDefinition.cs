@@ -1,4 +1,6 @@
-﻿using Ryne.ReportingSystem.Web.Definitions.Base;
+﻿using Ryne.ReportingSystem.Application.Models.MapperGonfigurations;
+using Ryne.ReportingSystem.Web.Definitions.Base;
+using System.Reflection;
 
 namespace Ryne.ReportingSystem.Web.Definitions.Mapping
 {
@@ -10,7 +12,7 @@ namespace Ryne.ReportingSystem.Web.Definitions.Mapping
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration)
-            => services.AddAutoMapper(typeof(Program));
+            => services.AddAutoMapper(AutoMapperConfig.RegisterMappings());
 
         /// <summary>
         /// Configure application for current microservice

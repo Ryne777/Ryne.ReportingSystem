@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Ryne.ReportingSystem.Entity;
 
-namespace Ryne.ReportingSystem.Web.Models.MapperGonfigurations
+namespace Ryne.ReportingSystem.Application.Models.MapperGonfigurations
 {
     public class RepairMappingConfiguration: Profile
     {
@@ -10,6 +10,9 @@ namespace Ryne.ReportingSystem.Web.Models.MapperGonfigurations
             CreateMap<Repair, RepairDTO>();
             CreateMap<Repair, RepairDetailDTO>();
             CreateMap<RepairCreateDTO, Repair>();
+            CreateMap<Repair, RepairAndDefectoscopeDTO>()
+                .ForMember(dest => dest.TypeOfDefectoscope, 
+                opt => opt.MapFrom(srs => srs.Defectoscope!.TypeOfDefectoscope!.Name));
             
         }
     }
