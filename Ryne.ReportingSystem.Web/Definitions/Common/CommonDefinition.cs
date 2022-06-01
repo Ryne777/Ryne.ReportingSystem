@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.Json;
 using Ryne.ReportingSystem.Web.Definitions.Base;
-using Ryne.ReportingSystem.Web.Helpers;
 using System.Text.Json.Serialization;
 
 namespace Ryne.ReportingSystem.Web.Definitions.Common

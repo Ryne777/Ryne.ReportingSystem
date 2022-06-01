@@ -9,8 +9,7 @@ namespace Ryne.ReportingSystem.Application.Models.MapperGonfigurations
         {
             CreateMap<TypeOfDefectoscope, TypeOfDefectoscopeDTO>();
             CreateMap<TypeOfDefectoscope, TypeOfDefectoscopeDetailDTO>();
-            CreateMap<TypeOfDefectoscopeCreateDTO, TypeOfDefectoscope>();
-            CreateMap<TypeOfDefectoscopeUpdateDTO, TypeOfDefectoscope>();
+            CreateMap<TypeOfDefectoscopeCreateDTO, TypeOfDefectoscope>();            
         }
     }
 }

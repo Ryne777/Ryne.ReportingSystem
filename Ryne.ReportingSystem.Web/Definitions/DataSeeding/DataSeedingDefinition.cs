@@ -1,5 +1,5 @@
-﻿using Ryne.ReportingSystem.Web.Definitions.Base;
-using Ryne.ReportingSystem.Web.Helpers;
+﻿using Ryne.ReportingSystem.Application;
+using Ryne.ReportingSystem.Web.Definitions.Base;
 
 namespace Ryne.ReportingSystem.Web.Definitions.DataSeeding
 {

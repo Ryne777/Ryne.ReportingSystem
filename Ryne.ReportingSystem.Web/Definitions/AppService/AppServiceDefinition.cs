@@ -9,6 +9,10 @@ namespace Ryne.ReportingSystem.Web.Definitions.AppService
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IRepairService, RepairService>();
+            services.AddTransient<IOrganizationService, OrganizationService>();
+            services.AddTransient<ITypeOfDefectoscopeService, TypeOfDefectoscopeService>();
+            services.AddTransient<IEngineerService, EngineerService>();
+            services.AddTransient<IDefectoscopeService, DefectoscopeService>();
         }
     }
 }

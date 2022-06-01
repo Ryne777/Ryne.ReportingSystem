@@ -70,7 +70,7 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             [SwaggerRequestBody(
                 Required = true
             )]
-        TypeOfDefectoscopeUpdateDTO DTO,
+        TypeOfDefectoscopeCreateDTO DTO,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {

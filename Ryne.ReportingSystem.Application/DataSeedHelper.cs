@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Ryne.ReportingSystem.Application;
 
-namespace Ryne.ReportingSystem.Web.Helpers
+namespace Ryne.ReportingSystem.Application
 {
     public class DataSeedHelper
     {
@@ -21,7 +20,7 @@ namespace Ryne.ReportingSystem.Web.Helpers
                 var en = new Entity.Engineer() { Id = Guid.NewGuid(), Name = "dff" };
                 var rep = _repairBuilder
                 .AddEngineer(en)
-                .AddTypeOfRepair(Ryne.ReportingSystem.Entity.TypeOfRepair.TR1)
+                .AddTypeOfRepair(Entity.TypeOfRepair.TR1)
                 .AddDateReceipt(DateTime.Now)
                 .AddDateOfLastRepair(DateTime.Now)
                 .AddDateRelease(DateTime.Now)
@@ -34,7 +33,7 @@ namespace Ryne.ReportingSystem.Web.Helpers
                 .AddProductionYear(2010)
                 .AddRepair(rep
                 );
-                var def = _defectoscopeBuilder.Build();                
+                var def = _defectoscopeBuilder.Build();
                 await context.Defectoscopes.AddAsync(def);
                 await context.SaveChangesAsync();
             }

@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using Ryne.ReportingSystem.Application;
-using Ryne.ReportingSystem.Web.Definitions.Base;
-using Microsoft.EntityFrameworkCore;
+﻿using Ryne.ReportingSystem.Web.Definitions.Base;
 using Swashbuckle.AspNetCore.Annotations;
-using Ryne.ReportingSystem.Entity;
 using Ryne.ReportingSystem.Application.Models;
 using Ryne.ReportingSystem.Application.Service.Interfaces;
 
@@ -14,6 +10,7 @@ namespace Ryne.ReportingSystem.Web.Endpoints
         public override void ConfigureApplication(WebApplication app, IWebHostEnvironment environment)
         {
             app.MapGet("/api/repairs/", GetListRepairs);
+            app.MapGet("/api/repairs/{id:guid}", GetOneRepairById);
             app.MapPost("/api/repairs/",CreateRepair);
             app.MapPut("/api/repairs/{id:guid}", UpdateRepair);
             app.MapDelete("/api/repairs/{id:guid}", DeletRepairById);
