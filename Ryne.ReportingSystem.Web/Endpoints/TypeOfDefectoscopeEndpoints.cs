@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Ryne.ReportingSystem.Application;
-using Ryne.ReportingSystem.Application.Models;
-using Ryne.ReportingSystem.Entity;
+﻿using Ryne.ReportingSystem.Application.Models;
+using Ryne.ReportingSystem.Application.Service.Interfaces;
 using Ryne.ReportingSystem.Web.Definitions.Base;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -26,10 +23,9 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             ]
         [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(List<TypeOfDefectoscopeDTO>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task GetListTypeOfDefectoscope(ApplicationDbContext db, HttpContext http, IMapper mapper)
+        private async Task GetListTypeOfDefectoscope(HttpContext http, ITypeOfDefectoscopeService service)
         {
-            var data = await db.TypeOfDefectoscopes.ToArrayAsync();
-            var DTO = mapper.Map<List<TypeOfDefectoscopeDTO>>(data);
+            var DTO = await service.GetList();
             await http.Response.WriteAsJsonAsync(DTO);
         }
 
@@ -37,12 +33,16 @@ namespace Ryne.ReportingSystem.Web.Endpoints
            Summary = "возваращает один тип дефектоскопов")]
         [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(TypeOfDefectoscopeDetailDTO))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task GetOneTypeOfDefectoscopeById(ApplicationDbContext db, HttpContext http, IMapper mapper,
+        private async Task GetOneTypeOfDefectoscopeById(HttpContext http, ITypeOfDefectoscopeService service,
            [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var data = await db.TypeOfDefectoscopes.FirstOrDefaultAsync(x => x.Id == id);
-            var DTO = mapper.Map<TypeOfDefectoscopeDetailDTO>(data);
+            var DTO = await service.GetById(id);
+            if (DTO == null)
+            {
+                http.Response.StatusCode = StatusCodes.Status404NotFound;
+                return;
+            }
             await http.Response.WriteAsJsonAsync(DTO);
         }
 
@@ -50,15 +50,13 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "создает тип дефектоскопов")]
         [SwaggerResponse(StatusCodes.Status201Created, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task CreateTypeOfDefectoscope(ApplicationDbContext db, HttpContext http, IMapper mapper, 
+        private async Task CreateTypeOfDefectoscope(HttpContext http, ITypeOfDefectoscopeService service,
             [SwaggerRequestBody(
                 Required = true
             )]
         TypeOfDefectoscopeCreateDTO DTO)
-        {            
-            var data = mapper.Map<TypeOfDefectoscope>(DTO);            
-            await db.TypeOfDefectoscopes.AddAsync(data);
-            await db.SaveChangesAsync();
+        {
+            await service.CreateOne(DTO);
             http.Response.StatusCode = StatusCodes.Status201Created;
         }
 
@@ -66,7 +64,7 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "обновляет тип дефектоскопа")]
         [SwaggerResponse(StatusCodes.Status201Created, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task  UpdateTypeOfDefectoscope(ApplicationDbContext db, HttpContext http, IMapper mapper,
+        private async Task  UpdateTypeOfDefectoscope(HttpContext http, ITypeOfDefectoscopeService service,
             [SwaggerRequestBody(
                 Required = true
             )]
@@ -74,15 +72,11 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var dataFromDb = await db.TypeOfDefectoscopes.FirstOrDefaultAsync(x => x.Id == id);
-            if (dataFromDb == null)
+            if (!await service.UpdateOne(DTO, id))
             {
                 http.Response.StatusCode = StatusCodes.Status404NotFound;
                 return;
-            }            
-            dataFromDb.Name = DTO.Name;
-            db.TypeOfDefectoscopes.Update(dataFromDb);
-            await db.SaveChangesAsync();
+            }
             http.Response.StatusCode = StatusCodes.Status201Created;
         }
 
@@ -90,18 +84,15 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "удаляеет один тип дефектоскопа")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task DeletTypeOfDefectoscopeById(ApplicationDbContext db, HttpContext http,
+        private async Task DeletTypeOfDefectoscopeById(HttpContext http, ITypeOfDefectoscopeService service,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var data = await db.TypeOfDefectoscopes.FirstOrDefaultAsync(x => x.Id == id);
-            if (data == null)
+            if (!await service.DeleteOne(id))
             {
                 http.Response.StatusCode = StatusCodes.Status404NotFound;
                 return;
             }
-            db.TypeOfDefectoscopes.Remove(data!);
-            await db.SaveChangesAsync();
             http.Response.StatusCode = StatusCodes.Status204NoContent;
         }
     }

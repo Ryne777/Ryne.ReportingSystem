@@ -1,33 +1,70 @@
-﻿using Ryne.ReportingSystem.Application.Models;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Ryne.ReportingSystem.Application.Models;
 using Ryne.ReportingSystem.Application.Service.Interfaces;
+using Ryne.ReportingSystem.Entity;
 
 namespace Ryne.ReportingSystem.Application.Service
 {
     public class OrganizationService : IOrganizationService
     {
-        public Task CreateOne(OrganizationCreateDTO createDTO)
+        private readonly ApplicationDbContext _db;
+        private readonly IMapper _mapper;
+
+        public OrganizationService(ApplicationDbContext db, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _db = db;
+            _mapper = mapper;
         }
 
-        public Task<bool> DeleteOne(Guid id)
+        public async Task CreateOne(OrganizationCreateDTO createDTO)
         {
-            throw new NotImplementedException();
+            var data = _mapper.Map<Organization>(createDTO);
+            await _db.Organizations.AddAsync(data);
+            await _db.SaveChangesAsync();
         }
 
-        public Task<OrganizationDetailDTO> GetById(Guid id)
+        public async Task<bool> DeleteOne(Guid id)
         {
-            throw new NotImplementedException();
+            var data = await _db.Organizations.FirstOrDefaultAsync(x => x.Id == id);
+            if (data != null)
+            {
+                _db.Organizations.Remove(data!);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<List<OrganizationDTO>> GetList()
+        public async Task<OrganizationDetailDTO> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var data = await _db.Organizations.FirstOrDefaultAsync(x => x.Id == id);
+            if (data == null)
+            {
+                return null;
+            }
+            var DTO = _mapper.Map<OrganizationDetailDTO>(data);
+            return DTO;
         }
 
-        public Task<bool> UpdateOne(OrganizationCreateDTO updateDTO, Guid id)
+        public async Task<List<OrganizationDTO>> GetList()
         {
-            throw new NotImplementedException();
+            var data = await _db.Organizations.ToArrayAsync();
+            var DTO = _mapper.Map<List<OrganizationDTO>>(data);
+            return DTO;
+        }
+
+        public async Task<bool> UpdateOne(OrganizationCreateDTO updateDTO, Guid id)
+        {
+            var dataFromDb = await _db.Organizations.FirstOrDefaultAsync(x => x.Id == id);
+            if (dataFromDb != null)
+            {
+                _mapper.Map<OrganizationCreateDTO, Organization>(updateDTO, dataFromDb);
+                _db.Organizations.Update(dataFromDb);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

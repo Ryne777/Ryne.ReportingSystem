@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Ryne.ReportingSystem.Application;
-using Ryne.ReportingSystem.Application.Models;
-using Ryne.ReportingSystem.Entity;
+﻿using Ryne.ReportingSystem.Application.Models;
+using Ryne.ReportingSystem.Application.Service.Interfaces;
 using Ryne.ReportingSystem.Web.Definitions.Base;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -25,10 +22,9 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             ]
         [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(List<EngineerDTO>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task GetListEngineers(ApplicationDbContext db, HttpContext http, IMapper mapper)
+        private async Task GetListEngineers(HttpContext http, IEngineerService service)
         {
-            var data = await db.Engineers.ToArrayAsync();
-            var DTO = mapper.Map<List<EngineerDTO>>(data);
+            var DTO = await service.GetList();
             await http.Response.WriteAsJsonAsync(DTO);
         }
 
@@ -36,35 +32,37 @@ namespace Ryne.ReportingSystem.Web.Endpoints
            Summary = "возваращает одиного электроника")]
         [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(EngineerDTO))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task GetOneEngineerById(ApplicationDbContext db, HttpContext http, IMapper mapper,
+        private async Task GetOneEngineerById(HttpContext http, IEngineerService service,
            [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var data = await db.Organizations.FirstOrDefaultAsync(x => x.Id == id);
-            var DTO = mapper.Map<EngineerDTO>(data);
+            var DTO = await service.GetById(id);
+            if (DTO == null)
+            {
+                http.Response.StatusCode = StatusCodes.Status404NotFound;
+                return;
+            }
             await http.Response.WriteAsJsonAsync(DTO);
         }
         [SwaggerOperation(
             Summary = "создает электроника")]
         [SwaggerResponse(StatusCodes.Status201Created, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task CreateEngineer(ApplicationDbContext db, HttpContext http, IMapper mapper,
+        private async Task CreateEngineer(HttpContext http, IEngineerService service,
             [SwaggerRequestBody(
                 Required = true
             )]
         EngineerCreateDTO DTO)
         {
-            var data = mapper.Map<Engineer>(DTO);
-            await db.Engineers.AddAsync(data);
-            await db.SaveChangesAsync();
-            http.Response.StatusCode = StatusCodes.Status201Created;
+            await service.CreateOne(DTO);
+            http.Response.StatusCode = StatusCodes.Status201Created;            
         }
 
         [SwaggerOperation(
             Summary = "обновить электроника")]
         [SwaggerResponse(StatusCodes.Status201Created, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task UpdateEngineer(ApplicationDbContext db, HttpContext http,
+        private async Task UpdateEngineer(HttpContext http, IEngineerService service,
             [SwaggerRequestBody(
                 Required = true
             )]
@@ -72,15 +70,11 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var dataFromDb = await db.Engineers.FirstOrDefaultAsync(x => x.Id == id);
-            if (dataFromDb == null)
+            if (!await service.UpdateOne(DTO, id))
             {
                 http.Response.StatusCode = StatusCodes.Status404NotFound;
                 return;
             }
-            dataFromDb.Name = DTO.Name;
-            db.Engineers.Update(dataFromDb);
-            await db.SaveChangesAsync();
             http.Response.StatusCode = StatusCodes.Status201Created;
         }
 
@@ -88,18 +82,15 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "удаляеет одиного электроника")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task DeletEngineerById(ApplicationDbContext db, HttpContext http,
+        private async Task DeletEngineerById(HttpContext http, IEngineerService service,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var data = await db.Engineers.FirstOrDefaultAsync(x => x.Id == id);
-            if (data == null)
+            if (!await service.DeleteOne(id))
             {
                 http.Response.StatusCode = StatusCodes.Status404NotFound;
                 return;
             }
-            db.Engineers.Remove(data!);
-            await db.SaveChangesAsync();
             http.Response.StatusCode = StatusCodes.Status204NoContent;
         }
     }

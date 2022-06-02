@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Ryne.ReportingSystem.Application;
-using Ryne.ReportingSystem.Application.Models;
-using Ryne.ReportingSystem.Entity;
+﻿using Ryne.ReportingSystem.Application.Models;
+using Ryne.ReportingSystem.Application.Service.Interfaces;
 using Ryne.ReportingSystem.Web.Definitions.Base;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -29,10 +26,9 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             ]
         [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(List<OrganizationDTO>))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task GetListOrganization(ApplicationDbContext db, HttpContext http, IMapper mapper)
+        private async Task GetListOrganization(HttpContext http, IOrganizationService service)
         {
-            var data = await db.Organizations.ToArrayAsync();
-            var DTO = mapper.Map<List<OrganizationDTO>>(data);
+            var DTO = await service.GetList();
             await http.Response.WriteAsJsonAsync(DTO);
         }
 
@@ -40,27 +36,29 @@ namespace Ryne.ReportingSystem.Web.Endpoints
            Summary = "возваращает одину организацию")]
         [SwaggerResponse(StatusCodes.Status200OK, "success", typeof(OrganizationDetailDTO))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task GetOneOrganizationById(ApplicationDbContext db, HttpContext http, IMapper mapper,
+        private async Task GetOneOrganizationById(HttpContext http, IOrganizationService service,
            [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var data = await db.Organizations.FirstOrDefaultAsync(x => x.Id == id);
-            var DTO = mapper.Map<OrganizationDetailDTO>(data);
+            var DTO = await service.GetById(id);
+            if (DTO == null)
+            {
+                http.Response.StatusCode = StatusCodes.Status404NotFound;
+                return;
+            }
             await http.Response.WriteAsJsonAsync(DTO);
         }
         [SwaggerOperation(
             Summary = "создает организацию")]
         [SwaggerResponse(StatusCodes.Status201Created, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task CreateOrganization(ApplicationDbContext db, HttpContext http, IMapper mapper,
+        private async Task CreateOrganization(HttpContext http, IOrganizationService service,
             [SwaggerRequestBody(
                 Required = true
             )]
         OrganizationCreateDTO DTO)
         {
-            var data = mapper.Map<Organization>(DTO);
-            await db.Organizations.AddAsync(data);
-            await db.SaveChangesAsync();
+            await service.CreateOne(DTO);
             http.Response.StatusCode = StatusCodes.Status201Created;
         }
 
@@ -68,7 +66,7 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "обновляет Организацию")]
         [SwaggerResponse(StatusCodes.Status201Created, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task UpdateOrganization(ApplicationDbContext db, HttpContext http,
+        private async Task UpdateOrganization(HttpContext http, IOrganizationService service,
             [SwaggerRequestBody(
                 Required = true
             )]
@@ -76,15 +74,11 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var dataFromDb = await db.Organizations.FirstOrDefaultAsync(x => x.Id == id);
-            if (dataFromDb == null)
+            if (!await service.UpdateOne(DTO, id))
             {
                 http.Response.StatusCode = StatusCodes.Status404NotFound;
                 return;
             }
-            dataFromDb.Name = DTO.Name;
-            db.Organizations.Update(dataFromDb);
-            await db.SaveChangesAsync();
             http.Response.StatusCode = StatusCodes.Status201Created;
         }
 
@@ -92,18 +86,15 @@ namespace Ryne.ReportingSystem.Web.Endpoints
             Summary = "удаляеет одину организацию")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "success")]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "some failure")]
-        private async Task DeletOranizationById(ApplicationDbContext db, HttpContext http,
+        private async Task DeletOranizationById(HttpContext http, IOrganizationService service,
             [SwaggerParameter("Id:Guid", Required = true)]
             Guid id)
         {
-            var data = await db.Organizations.FirstOrDefaultAsync(x => x.Id == id);
-            if (data == null)
+            if (!await service.DeleteOne(id))
             {
                 http.Response.StatusCode = StatusCodes.Status404NotFound;
                 return;
             }
-            db.Organizations.Remove(data!);
-            await db.SaveChangesAsync();
             http.Response.StatusCode = StatusCodes.Status204NoContent;
         }
     }
