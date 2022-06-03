@@ -15,9 +15,9 @@ namespace Ryne.ReportingSystem.Web.Definitions.Common
             //TODO:избавиться от этой опции
             services.Configure<JsonOptions>(options =>
             {
-                options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                
-        });
+                options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;                
+            });
+            services.AddCors();
         }
         public override void ConfigureApplication(WebApplication app, IWebHostEnvironment environment)
         {
@@ -33,6 +33,7 @@ namespace Ryne.ReportingSystem.Web.Definitions.Common
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCors(builder => builder.AllowAnyOrigin());
 
             app.UseRouting();
 
