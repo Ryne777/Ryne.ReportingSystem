@@ -1,40 +1,33 @@
-import axios from 'axios';
+
 import { useEffect, useState } from 'react';
 import './App.css';
-import Component1 from './Component/Component1';
+import { IDefectoscope } from './types/defectoscopeType';
+import { Container } from 'react-bootstrap';
+import defectoscopeService from './service/defectoscopeService';
+import DefectoscopeRaw from './components/DefectoscopeRaw';
+
 
 function App() {
-  const [num, setNum] = useState(0)
-  const [text, setText] = useState("")
+  const [def, setDefs] = useState<IDefectoscope[]>([]);
 
-
-  function increment():void {
-    setNum(num+1)
-  }
   useEffect(() => {
-        fetchUsers()
-    }, [])
-
-    async function fetchUsers() {
-        try {
-            const response = await axios.get('http://localhost:5000/api/defectoscops/')
-            console.log(response.data)
-        } catch (e) {
-            alert(e)
-        }
+    fetchDefectoscope()
+  })
+  async function fetchDefectoscope() {
+    try {
+      const response = await defectoscopeService.getAll()
+      setDefs(response.data);
+    } catch (e) {
+      alert(e)
     }
 
+  }
+
+
   return (
-    <div className="App">
-      <h1>{num}</h1>
-      <button onClick={increment}>Increment</button>
-      <h1>{text}</h1>
-      <input type="text"
-        value = {text}
-        onChange={event => setText(event.target.value)}>
-      </input>
-      <Component1 name={text} ></Component1>
-    </div>
+    <Container className="p-3">
+      <DefectoscopeRaw def={def} />
+    </Container>
   );
 }
 
