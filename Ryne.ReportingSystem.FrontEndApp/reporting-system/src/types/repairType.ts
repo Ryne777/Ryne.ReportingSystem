@@ -2,13 +2,13 @@ import { TypeOfRepair } from "./typeOfRepair"
 
 export interface IRepair {
   id: string,
-  dateOfCalibration: Date
+  dateOfCalibration: string
 }
 
 export interface IRepairDetail extends IRepair {
-  dateOfReceipt: Date,
-  dateOfRelease: Date,
-  dateOfLastRepair: Date,
+  dateOfReceipt: string,
+  dateOfRelease: string,
+  dateOfLastRepair: string,
   typeOfRepair: TypeOfRepair,
   defectoscopeId: string,
   engineerID: string,
@@ -17,13 +17,13 @@ export interface IRepairDetail extends IRepair {
   engineerName: string
 }
 export interface IRepairCreate {
-  dateOfCalibration: Date,
-  dateOfReceipt: Date,
-  dateOfRelease: Date,
-  dateOfLastRepair: Date,
+  dateOfCalibration: string,
+  dateOfReceipt: string,
+  dateOfRelease: string,
+  dateOfLastRepair: string,
   typeOfRepair: TypeOfRepair,
-  defectoscopeId: Date,
-  engineerID: Date
+  defectoscopeId: string,
+  engineerID: string
 }
 export interface IRepairAndDefectoscope extends IRepair {
   defectoscopeSerialNumber: string,
