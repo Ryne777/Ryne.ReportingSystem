@@ -5,19 +5,19 @@ import { ITypeOfDefectoscope, ITypeOfDefectoscopeCreate, ITypeOfDefectoscopeDeta
 class TypeOfDefectoscopeService {
 
   async getAll() {
-    return await http.get<Array<ITypeOfDefectoscope>>("/typeOfDefectoscopes");
+    return await http.get<Array<ITypeOfDefectoscope>>("/typeOfDefectoscope");
   }
 
   async get(id: string) {
-    return await http.get<ITypeOfDefectoscopeDetail>(`/typeOfDefectoscopes/${id}`);
+    return await http.get<ITypeOfDefectoscopeDetail>(`/typeOfDefectoscope/${id}`);
   }
 
   async create(data: ITypeOfDefectoscopeCreate) {
-    return await http.post<ITypeOfDefectoscopeCreate>("/typeOfDefectoscopes", data);
+    return await http.post<ITypeOfDefectoscopeCreate>("/typeOfDefectoscope", data);
   }
 
   async update(data: ITypeOfDefectoscopeCreate, id: any) {
-    return await http.put<ITypeOfDefectoscopeCreate>(`/typeOfDefectoscopes/${id}`, data);
+    return await http.put<ITypeOfDefectoscopeCreate>(`/typeOfDefectoscope/${id}`, data);
   }
 
   async delete(id: any) {

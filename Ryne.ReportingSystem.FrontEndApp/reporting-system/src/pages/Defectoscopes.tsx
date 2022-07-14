@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap'
-import DefectoscopeRaw from '../components/DefectoscopeRaw'
+import Tables from '../components/Tables';
 import defectoscopeService from '../service/defectoscopeService';
 import { IDefectoscope } from '../types/defectoscopeType';
 
@@ -17,8 +17,6 @@ const Defectoscopes: FC = () => {
     try {
       const response = await defectoscopeService.getAll()
       setTimeout(() => setDefs(response.data), 500)
-
-      console.log(new Date("2022-06-06T05:55:01.052Z"))
     } catch (e) {
       alert(e)
     }
@@ -27,7 +25,27 @@ const Defectoscopes: FC = () => {
     <><Row className="pt-1">
       <Col>
         {def.length > 0
-          ? <DefectoscopeRaw def={def} />
+          ? <Tables
+            objects={def}
+            properties={[
+              {
+                key: "serialNumber",
+                title: "Заводской номер"
+              },
+              {
+                key: "typeOfDefectoscopeName",
+                title: "Тип Дефектоскопа"
+              },
+              {
+                key: "productionYear",
+                title: "Год выпуска"
+              },
+              {
+                key: "organizationName",
+                title: "Предприятие"
+              }
+            ]}
+          />
           : <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
           </Spinner>}

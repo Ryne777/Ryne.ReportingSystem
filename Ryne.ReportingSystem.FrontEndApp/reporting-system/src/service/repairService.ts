@@ -1,11 +1,11 @@
 import http from "../http-common";
-import { IRepair, IRepairCreate, IRepairDetail } from "../types/repairType";
+import { IRepairCreate, IRepairDetail } from "../types/repairType";
 
 
 class RepairService {
 
   async getAll() {
-    return await http.get<Array<IRepair>>("/repairs");
+    return await http.get<Array<IRepairDetail>>("/repairs");
   }
 
   async get(id: string) {
