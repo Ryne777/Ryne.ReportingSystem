@@ -33,7 +33,12 @@ namespace Ryne.ReportingSystem.Web.Definitions.Common
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder => {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();                
+            });
 
             app.UseRouting();
 

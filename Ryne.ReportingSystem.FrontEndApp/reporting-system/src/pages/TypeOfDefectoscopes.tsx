@@ -7,10 +7,10 @@ import { ITypeOfDefectoscope } from '../types/typeOfDefectoscope';
 const TypeOfDefectoscopes: FC = () => {
   const [typeOfDefectoscopes, setTypeOfDefectoscopes] = useState<ITypeOfDefectoscope[]>([]);
   useEffect(() => {
-    fetchOrganizations()
+    fetchOfDefectoscopes()
 
   }, [])
-  async function fetchOrganizations() {
+  async function fetchOfDefectoscopes() {
     try {
       const response = await typeOfDefectoscopeService.getAll()
       setTimeout(() => setTypeOfDefectoscopes(response.data), 500)

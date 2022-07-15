@@ -11,7 +11,7 @@ export interface IDefectoscope {
 export interface IDefectoscopeDetail extends IDefectoscope {
   typeOfDefectoscopeId: string,
   organizationId: string,
-  repairs: IRepair
+  repairs: IRepair[]
 }
 export interface IDefectoscopeCreate {
   serialNumber: string,

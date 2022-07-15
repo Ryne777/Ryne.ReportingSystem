@@ -10,14 +10,13 @@ import TypeOfDefectoscopes from "../pages/TypeOfDefectoscopes"
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/defectoscope" replace />} />
       <Route path="repairs" element={<Repairs />} />
       <Route path="engineers" element={<Engineers />} />
       <Route path="organizations" element={<Organizations />} />
       <Route path="type-of-defectoscopes" element={<TypeOfDefectoscopes />} />
       <Route path="defectoscope" element={<Defectoscopes />} />
       <Route path="defectoscope/:id" element={<DefectoscopeDetail />} />
-
+      <Route path="/" element={<Navigate to="/defectoscope" replace />} />
       <Route
         path="*"
         element={

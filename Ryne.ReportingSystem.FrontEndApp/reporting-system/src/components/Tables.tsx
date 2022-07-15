@@ -4,6 +4,7 @@ import Row from "./Row";
 
 interface ITablesProps<ObjectType> {
   objects: ObjectType[];
+  path?: string;
   properties: {
     key: keyof ObjectType,
     title: string,
@@ -12,7 +13,7 @@ interface ITablesProps<ObjectType> {
 
 
 function Tables<ObjectType extends { id: string }>(
-  { objects, properties }: ITablesProps<ObjectType>,
+  { objects, properties, path }: ITablesProps<ObjectType>,
 ) {
   return (
     <Table striped bordered hover size="sm" className="text-center align-middle">
@@ -27,6 +28,7 @@ function Tables<ObjectType extends { id: string }>(
               object={object}
               properties={properties}
               counter={i + 1}
+              path={path}
             />
           ))
         }

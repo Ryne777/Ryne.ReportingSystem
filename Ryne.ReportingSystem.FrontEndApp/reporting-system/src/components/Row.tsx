@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 interface IRowProps<ObjectType> {
   object: ObjectType,
   counter: number,
+  path?: string,
   properties: {
     key: keyof ObjectType,
     title: string,
@@ -10,12 +11,15 @@ interface IRowProps<ObjectType> {
 
 }
 function Row<ObjectType extends { id: string }>(
-  { object, properties, counter }: IRowProps<ObjectType>
+  { object, properties, counter, path }: IRowProps<ObjectType>
 ) {
   const navigate = useNavigate()
   const location = useLocation()
+  if (path == null) {
+    path = location.pathname
+  }
   return (
-    <tr onClick={() => navigate(`${location.pathname}/${object.id}`)} style={{ cursor: "pointer" }}>
+    <tr onClick={() => navigate(`${path}/${object.id}`)} style={{ cursor: "pointer" }}>
       <td>
         {counter}
       </td>

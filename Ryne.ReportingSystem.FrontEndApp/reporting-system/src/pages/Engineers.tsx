@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap';
+import CreateSimleModal from '../components/CreateSimleModal';
 import EngineerList from '../components/EngineerList';
 import engineerService from '../service/engineerService';
-import { IEngineer } from '../types/engineerType';
+import { IEngineer, IEngineerCreate } from '../types/engineerType';
 
 const Engineers: FC = () => {
   const [engineer, setEngineer] = useState<IEngineer[]>([])
@@ -30,10 +31,16 @@ const Engineers: FC = () => {
       </Col>
     </Row><Row>
         <Col className="d-flex justify-content-end">
-          <Button variant="success" className="me-1">Add</Button>{' '}
+          <CreateSimleModal
+            service={engineerService.create}
+            title={"Создать нового электроника"}
+          />
           <Button variant="danger">Delete</Button>{' '}
         </Col>
       </Row>
+
+
+
     </>
 
   )
