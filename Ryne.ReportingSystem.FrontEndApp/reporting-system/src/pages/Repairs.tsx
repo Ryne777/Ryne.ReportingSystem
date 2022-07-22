@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap';
 import Tables from '../components/Tables';
 import repairService from '../service/repairService';
 import { IRepairDetail } from '../types/repairType';
 
-const Repairs: FC = () => {
+const Repairs = () => {
   const [repairs, setRepairs] = useState<IRepairDetail[]>([]);
 
   useEffect(() => {

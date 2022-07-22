@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap'
 import Tables from '../components/Tables';
 import defectoscopeService from '../service/defectoscopeService';
@@ -6,7 +6,7 @@ import { IDefectoscope } from '../types/defectoscopeType';
 
 
 
-const Defectoscopes: FC = () => {
+const Defectoscopes = () => {
   const [def, setDefs] = useState<IDefectoscope[]>([]);
 
   useEffect(() => {

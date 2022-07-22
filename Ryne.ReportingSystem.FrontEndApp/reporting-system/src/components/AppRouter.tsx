@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import DefectoscopeDetail from "../pages/DefectoscopeDetail"
 import Defectoscopes from "../pages/Defectoscopes"
+import EngineerDetail from "../pages/EngineerDetail"
 import Engineers from "../pages/Engineers"
 import Organizations from "../pages/Organizations"
 import Repairs from "../pages/Repairs"
@@ -12,6 +13,7 @@ const AppRouter = () => {
     <Routes>
       <Route path="repairs" element={<Repairs />} />
       <Route path="engineers" element={<Engineers />} />
+      <Route path="engineers/:id" element={<EngineerDetail />} />
       <Route path="organizations" element={<Organizations />} />
       <Route path="type-of-defectoscopes" element={<TypeOfDefectoscopes />} />
       <Route path="defectoscope" element={<Defectoscopes />} />

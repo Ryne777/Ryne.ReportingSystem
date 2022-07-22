@@ -1,4 +1,3 @@
-import { FC } from "react";
 
 interface Props {
   properties: {
@@ -7,7 +6,7 @@ interface Props {
   }[];
 }
 
-const Head: FC<Props> = ({ properties, }) => {
+const Head = ({ properties, }: Props) => {
   return (
     <thead>
       <tr>

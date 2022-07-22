@@ -1,17 +1,19 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap';
 import CreateSimleModal from '../components/CreateSimleModal';
 import EngineerList from '../components/EngineerList';
 import engineerService from '../service/engineerService';
-import { IEngineer, IEngineerCreate } from '../types/engineerType';
+import { IEngineer } from '../types/engineerType';
 
-const Engineers: FC = () => {
+const Engineers = () => {
+  const [reFetch, setReFetch] = useState(true)
   const [engineer, setEngineer] = useState<IEngineer[]>([])
 
   useEffect(() => {
     fetchEngineers()
+    console.log(reFetch)
+  }, [reFetch])
 
-  }, [])
   async function fetchEngineers() {
     try {
       const response = await engineerService.getAll()
@@ -20,6 +22,7 @@ const Engineers: FC = () => {
       alert(e)
     }
   }
+
   return (
     <><Row className="pt-1">
       <Col>
@@ -31,10 +34,11 @@ const Engineers: FC = () => {
       </Col>
     </Row><Row>
         <Col className="d-flex justify-content-end">
-          <CreateSimleModal
-            service={engineerService.create}
+          {/* <CreateSimleModal
+            reducer={}
             title={"Создать нового электроника"}
-          />
+            onCreate={() => setReFetch(!reFetch)}
+          /> */}
           <Button variant="danger">Delete</Button>{' '}
         </Col>
       </Row>

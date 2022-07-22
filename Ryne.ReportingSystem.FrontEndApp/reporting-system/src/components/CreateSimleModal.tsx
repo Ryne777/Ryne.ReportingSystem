@@ -1,17 +1,19 @@
-import { AxiosResponse } from 'axios';
-import React, { FC, useState } from 'react'
+import { AsyncThunk } from '@reduxjs/toolkit/dist/createAsyncThunk';
+import React, { useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap';
+import { useAppDispatch } from '../hooks/redux';
 import { IEngineerCreate } from '../types/engineerType';
 import { IOrganizationCreate } from '../types/organizationType';
 import { ITypeOfDefectoscopeCreate } from '../types/typeOfDefectoscope';
 
 type SimpleCreate = (IEngineerCreate | IOrganizationCreate | ITypeOfDefectoscopeCreate)
 type ICreateSimleModalProps<SimpleCreate> = {
-  service: (t: SimpleCreate) => Promise<AxiosResponse<SimpleCreate, any>>
+  reducer: AsyncThunk<any, SimpleCreate, { rejectValue: any }>
   title: string
 }
 
-function CreateSimleModal<T extends SimpleCreate>({ service, title }: ICreateSimleModalProps<T>) {
+function CreateSimleModal<T extends SimpleCreate>({ reducer, title, }: ICreateSimleModalProps<T>) {
+  const dispatch = useAppDispatch()
   const [show, setShow] = useState(false)
   const [value, setValue] = useState("")
 
@@ -24,7 +26,7 @@ function CreateSimleModal<T extends SimpleCreate>({ service, title }: ICreateSim
 
   const Create = (data: T,) => {
     try {
-      service(data)
+      dispatch(reducer(data))
     }
     catch (err) {
       alert(err)
@@ -64,10 +66,11 @@ function CreateSimleModal<T extends SimpleCreate>({ service, title }: ICreateSim
           >
             Close
           </Button>
-          <Button variant="primary" onClick={() => {
-            Create({ name: value } as T)
-            handleClose()
-          }}>
+          <Button variant="primary"
+            onClick={() => {
+              Create({ name: value } as T)
+              handleClose()
+            }}>
             Save Changes
           </Button>
         </Modal.Footer>

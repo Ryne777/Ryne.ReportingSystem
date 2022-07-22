@@ -1,25 +1,14 @@
-import { FC, useEffect, useState } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap';
+import CreateSimleModal from '../components/CreateSimleModal';
 import Tables from '../components/Tables';
-import organizationService from '../service/organizationService';
-import { IOrganization } from '../types/organizationType'
+import { useAppSelector } from '../hooks/redux';
+import { createOrganization } from '../store/slices/OrganizationsSlices';
 
 
 
-const Organizations: FC = () => {
-  const [organizations, setOrganizations] = useState<IOrganization[]>([]);
-  useEffect(() => {
-    fetchOrganizations()
+const Organizations = () => {
+  const { organizations } = useAppSelector(state => state.organizationReducer)
 
-  }, [])
-  async function fetchOrganizations() {
-    try {
-      const response = await organizationService.getAll()
-      setTimeout(() => setOrganizations(response.data), 500)
-    } catch (e) {
-      alert(e)
-    }
-  }
   return (
     <><Row className="pt-1">
       <Col>
@@ -39,7 +28,10 @@ const Organizations: FC = () => {
       </Col>
     </Row><Row>
         <Col className="d-flex justify-content-end">
-          <Button variant="success" className="me-1">Add</Button>{' '}
+          <CreateSimleModal
+            reducer={createOrganization}
+            title={"Создать новую  организацию владельца дефектоскопов"}
+          />
           <Button variant="danger">Delete</Button>{' '}
         </Col>
       </Row>

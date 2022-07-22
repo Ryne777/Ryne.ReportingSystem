@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Spinner, Button } from 'react-bootstrap';
 import Tables from '../components/Tables';
 import typeOfDefectoscopeService from '../service/typeOfDefectoscopeService';
 import { ITypeOfDefectoscope } from '../types/typeOfDefectoscope';
 
-const TypeOfDefectoscopes: FC = () => {
+const TypeOfDefectoscopes = () => {
   const [typeOfDefectoscopes, setTypeOfDefectoscopes] = useState<ITypeOfDefectoscope[]>([]);
   useEffect(() => {
     fetchOfDefectoscopes()

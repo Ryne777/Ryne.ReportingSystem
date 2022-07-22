@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { Table } from 'react-bootstrap'
 import { IEngineer } from '../types/engineerType'
 import { IRepairAndDefectoscope } from '../types/repairType'
@@ -7,7 +6,7 @@ interface IEngineerProps {
   engineers: IEngineer[]
 }
 
-const EngineerList: FC<IEngineerProps> = ({ engineers }) => {
+const EngineerList = ({ engineers }: IEngineerProps) => {
   return (
     <>
       <Table striped bordered hover size="sm" className="text-center align-middle" >

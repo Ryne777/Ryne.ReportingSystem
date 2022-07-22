@@ -1,24 +1,22 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Spinner, Form, Button } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import Tables from '../components/Tables'
+import { useAppSelector } from '../hooks/redux'
 import defectoscopeService from '../service/defectoscopeService'
-import organizationService from '../service/organizationService'
 import typeOfDefectoscopeService from '../service/typeOfDefectoscopeService'
 import { IDefectoscopeDetail } from '../types/defectoscopeType'
-import { IOrganization } from '../types/organizationType'
 import { ITypeOfDefectoscope } from '../types/typeOfDefectoscope'
 
 
-const DefectoscopeDetail: FC = () => {
+const DefectoscopeDetail = () => {
   const [def, setDef] = useState<IDefectoscopeDetail>()
   const [isEdit, setIsEdit] = useState(true)
   const [typeOfDefectoscopes, setTypeOfDefectoscopes] = useState<ITypeOfDefectoscope[]>()
-  const [organizations, setOrganizations] = useState<IOrganization[]>()
+  const { organizations } = useAppSelector(state => state.organizationReducer)
   const { id } = useParams<{ id: string }>()
   useEffect(() => {
     GetDefectoscope(id!)
-    fetchOrganizations()
     fetchOfDefectoscopes()
   }, [id])
   async function GetDefectoscope(id: string) {
@@ -26,14 +24,6 @@ const DefectoscopeDetail: FC = () => {
       const response = await defectoscopeService.get(id)
       setDef(response.data)
     } catch (err) { alert(err) }
-  }
-  async function fetchOrganizations() {
-    try {
-      const response = await organizationService.getAll()
-      setOrganizations(response.data)
-    } catch (e) {
-      alert(e)
-    }
   }
   async function fetchOfDefectoscopes() {
     try {

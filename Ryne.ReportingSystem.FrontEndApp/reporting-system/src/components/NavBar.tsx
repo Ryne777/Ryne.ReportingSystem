@@ -1,10 +1,9 @@
-import { FC } from 'react'
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 
-type Props = {}
 
-const NavBar: FC = (props: Props) => {
+
+const NavBar = () => {
   return (
     <>
       <Navbar bg="light" expand="lg">
