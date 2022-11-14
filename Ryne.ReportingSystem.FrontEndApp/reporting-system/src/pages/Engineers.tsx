@@ -6,13 +6,12 @@ import engineerService from '../service/engineerService';
 import { IEngineer } from '../types/engineerType';
 
 const Engineers = () => {
-  const [reFetch, setReFetch] = useState(true)
+
   const [engineer, setEngineer] = useState<IEngineer[]>([])
 
   useEffect(() => {
     fetchEngineers()
-    console.log(reFetch)
-  }, [reFetch])
+  })
 
   async function fetchEngineers() {
     try {

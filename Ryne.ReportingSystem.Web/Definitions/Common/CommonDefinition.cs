@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Json;
 using Ryne.ReportingSystem.Web.Definitions.Base;
+using System.Net;
 using System.Text.Json.Serialization;
 
 namespace Ryne.ReportingSystem.Web.Definitions.Common
@@ -17,7 +18,20 @@ namespace Ryne.ReportingSystem.Web.Definitions.Common
             {
                 options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;                
             });
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+                options.HttpsPort = 5001;
+            });
             services.AddCors();
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(60);
+                
+            });
+
         }
         public override void ConfigureApplication(WebApplication app, IWebHostEnvironment environment)
         {
@@ -30,7 +44,7 @@ namespace Ryne.ReportingSystem.Web.Definitions.Common
                 
 
             }
-
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors(builder => {
